@@ -45,6 +45,7 @@ class Profile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25).h,
       child: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
