@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_web_app/content_screens/contacts.dart';
-import 'package:responsive_web_app/content_screens/dashboard.dart';
-import 'package:responsive_web_app/content_screens/organization.dart';
-import 'package:responsive_web_app/content_screens/profile.dart';
-import 'package:responsive_web_app/content_screens/route.dart' as route_widget;
-import 'package:responsive_web_app/content_screens/users.dart';
-import 'package:responsive_web_app/provider/provider.dart';
-import 'app_navigation_bar.dart';
+import 'package:responsive_web_app/Screens/content_screens/contacts.dart';
+import 'package:responsive_web_app/Screens/content_screens/dashboard.dart';
+import 'package:responsive_web_app/Screens/content_screens/organization.dart';
+import 'package:responsive_web_app/Screens/content_screens/profile.dart';
+import 'package:responsive_web_app/Screens/content_screens/route.dart'
+    as route_widget;
+import 'package:responsive_web_app/Screens/content_screens/users.dart';
+import 'package:responsive_web_app/provider/responsive_app_provider.dart';
+import 'components/app_navigation_bar.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({
     super.key,
   });
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
-  Widget checkConditionAndReturnWidget(SampleProvider provider) {
+class _HomeScreenState extends State<HomeScreen> {
+  Widget checkConditionAndReturnWidget(ResponsiveAppProvider provider) {
     switch (provider.selectedNavItem) {
       case 'Dashboard':
         return const Dashboard();
       case 'Route':
         return const route_widget.Route();
       case 'Organization':
-        return const Organization();
+        return Organization();
       case 'Users':
         return const Users();
       case 'Contacts':
@@ -41,7 +42,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var provider = context.watch<SampleProvider>();
+    var provider = context.watch<ResponsiveAppProvider>();
     return SafeArea(
       child: Scaffold(
         drawer: size.width < 600
@@ -53,7 +54,7 @@ class _HomePageState extends State<HomePage> {
               ? checkConditionAndReturnWidget(provider)
               : Row(
                   children: [
-                    Consumer<SampleProvider>(
+                    Consumer<ResponsiveAppProvider>(
                       builder: (context, value, child) => AnimatedContainer(
                         width: (value.isAppbarCollapsed == false) ? 240 : 80,
                         duration: const Duration(milliseconds: 300),

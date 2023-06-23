@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/custom_scaffold_page.dart';
+import '../../widgets/custom_scaffold_widget.dart';
 
 class Route extends StatelessWidget {
   const Route({super.key});

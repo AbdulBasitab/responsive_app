@@ -1,10 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../widgets/custom_scaffold_page.dart';
+import '../../widgets/custom_scaffold_widget.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 700),
+      vsync: this,
+    );
+    _animation =
+        CurvedAnimation(parent: _controller.view, curve: Curves.easeIn);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,61 +73,127 @@ class Profile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25).h,
       child: ListView(
-        physics: AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Preferences",
-                style: TextStyle(
-                  fontSize: 18.spMin,
-                  color: Colors.white,
+          FadeTransition(
+            opacity: _animation,
+            //filterQuality: FilterQuality.high,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Preferences",
+                  style: TextStyle(
+                    fontSize: 18.spMin,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              SizedBox(height: 10.spMin),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14).h,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Color Mode",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13.spMin,
+                SizedBox(height: 10.spMin),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14).h,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Color Mode",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 13.spMin,
+                            ),
+                          ),
+                          RadioMenuButton(
+                            value: false,
+                            groupValue: false,
+                            onChanged: (value) {},
+                            child: Text(
+                              "White",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                          RadioMenuButton(
+                            value: true,
+                            groupValue: true,
+                            style: const ButtonStyle(),
+                            onChanged: (value) {},
+                            child: Text(
+                              "Dark",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: constraints.maxHeight * 0.01),
+                      SizedBox(
+                        width: constraints.maxWidth,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Language',
+                            labelStyle: TextStyle(
+                              color: const Color(0xffC3C7CA),
+                              fontSize: 13.spMin,
+                            ),
+                            disabledBorder: const UnderlineInputBorder(),
+                            border: const UnderlineInputBorder(),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xffC3C7CA)),
+                            ),
+                            hintText: "English",
+                            hintStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                        RadioMenuButton(
-                          value: false,
-                          groupValue: false,
-                          onChanged: (value) {},
-                          child: Text(
-                            "White",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
-                        RadioMenuButton(
-                          value: true,
-                          groupValue: true,
-                          style: const ButtonStyle(),
-                          onChanged: (value) {},
-                          child: Text(
-                            "Dark",
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: constraints.maxHeight * 0.01),
-                    SizedBox(
-                      width: constraints.maxWidth,
-                      child: TextField(
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 14.spMin),
+                const Divider(
+                  color: Color(0xff45505A),
+                  height: 10,
+                ),
+                SizedBox(height: 25.spMin),
+                Text(
+                  "Access",
+                  style: TextStyle(
+                    fontSize: 18.spMin,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 10.spMin),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 14).h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const TextField(
                         decoration: InputDecoration(
-                          labelText: 'Language',
+                          labelText: 'User Name',
+                          labelStyle: TextStyle(color: Color(0xff8F979C)),
+                          disabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xff8F979C),
+                                style: BorderStyle.solid),
+                          ),
+                          border: UnderlineInputBorder(),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white),
+                          ),
+                          enabled: false,
+                          hintText: "jason",
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 25.spMin),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Password hint',
                           labelStyle: TextStyle(
                             color: const Color(0xffC3C7CA),
                             fontSize: 13.spMin,
@@ -109,274 +203,212 @@ class Profile extends StatelessWidget {
                           enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(color: Color(0xffC3C7CA)),
                           ),
-                          hintText: "English",
+                          hintText: "asd123",
                           hintStyle: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 14.spMin),
-              const Divider(
-                color: Color(0xff45505A),
-                height: 10,
-              ),
-              SizedBox(height: 25.spMin),
-              Text(
-                "Access",
-                style: TextStyle(
-                  fontSize: 18.spMin,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(height: 10.spMin),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14).h,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const TextField(
-                      decoration: InputDecoration(
-                        labelText: 'User Name',
-                        labelStyle: TextStyle(color: Color(0xff8F979C)),
-                        disabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color(0xff8F979C),
-                              style: BorderStyle.solid),
+                      SizedBox(height: 45.spMin),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                            Colors.orange.shade700,
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
                         ),
-                        border: UnderlineInputBorder(),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        ),
-                        enabled: false,
-                        hintText: "jason",
-                        hintStyle: TextStyle(
-                          color: Colors.white,
+                        child: Text(
+                          "Change Password",
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 25.spMin),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Password hint',
-                        labelStyle: TextStyle(
-                          color: const Color(0xffC3C7CA),
-                          fontSize: 13.spMin,
-                        ),
-                        disabledBorder: const UnderlineInputBorder(),
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xffC3C7CA)),
-                        ),
-                        hintText: "asd123",
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 45.spMin),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                          Colors.orange.shade700,
-                        ),
-                        shape: MaterialStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 14.spMin),
+                const Divider(
+                  color: Color(0xff45505A),
+                  height: 10,
+                ),
+                SizedBox(height: 25.spMin),
+                Text(
+                  "Contact",
+                  style: TextStyle(
+                    fontSize: 18.spMin,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 10.spMin),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                  ).h,
+                  child: Column(
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          labelStyle: TextStyle(
+                            color: const Color(0xffC3C7CA),
+                            fontSize: 13.spMin,
+                          ),
+                          disabledBorder: const UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffC3C7CA)),
+                          ),
+                          hintText: "abc@gmail.com",
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                      child: Text(
-                        "Change Password",
-                        style: Theme.of(context).textTheme.bodyMedium,
+                      SizedBox(height: 25.spMin),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Phone',
+                          labelStyle: TextStyle(
+                            color: const Color(0xffC3C7CA),
+                            fontSize: 13.spMin,
+                          ),
+                          disabledBorder: const UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffC3C7CA)),
+                          ),
+                          hintText: "(123)313-456",
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 14.spMin),
-              const Divider(
-                color: Color(0xff45505A),
-                height: 10,
-              ),
-              SizedBox(height: 25.spMin),
-              Text(
-                "Contact",
-                style: TextStyle(
-                  fontSize: 18.spMin,
-                  color: Colors.white,
+                SizedBox(height: 14.spMin),
+                const Divider(
+                  color: Color(0xff45505A),
+                  height: 10,
                 ),
-              ),
-              SizedBox(height: 10.spMin),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                ).h,
-                child: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(
-                          color: const Color(0xffC3C7CA),
-                          fontSize: 13.spMin,
-                        ),
-                        disabledBorder: const UnderlineInputBorder(),
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xffC3C7CA)),
-                        ),
-                        hintText: "abc@gmail.com",
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 25.spMin),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Phone',
-                        labelStyle: TextStyle(
-                          color: const Color(0xffC3C7CA),
-                          fontSize: 13.spMin,
-                        ),
-                        disabledBorder: const UnderlineInputBorder(),
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xffC3C7CA)),
-                        ),
-                        hintText: "(123)313-456",
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
+                SizedBox(height: 25.spMin),
+                Text(
+                  "Address",
+                  style: TextStyle(
+                    fontSize: 18.spMin,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              SizedBox(height: 14.spMin),
-              const Divider(
-                color: Color(0xff45505A),
-                height: 10,
-              ),
-              SizedBox(height: 25.spMin),
-              Text(
-                "Address",
-                style: TextStyle(
-                  fontSize: 18.spMin,
-                  color: Colors.white,
+                SizedBox(height: 15.spMin),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                  ).h,
+                  child: Column(
+                    children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Address line 1',
+                          labelStyle: TextStyle(
+                            color: const Color(0xffC3C7CA),
+                            fontSize: 13.spMin,
+                          ),
+                          disabledBorder: const UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffC3C7CA)),
+                          ),
+                          hintText: "7 Willoghbly Court",
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30.spMin),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Address line 2',
+                          labelStyle: TextStyle(
+                            color: const Color(0xffC3C7CA),
+                            fontSize: 13.spMin,
+                          ),
+                          disabledBorder: const UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffC3C7CA)),
+                          ),
+                          hintText: "",
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30.spMin),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'City',
+                          labelStyle: TextStyle(
+                            color: const Color(0xffC3C7CA),
+                            fontSize: 13.spMin,
+                          ),
+                          disabledBorder: const UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffC3C7CA)),
+                          ),
+                          hintText: "Durham",
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30.spMin),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'State',
+                          labelStyle: TextStyle(
+                            color: const Color(0xffC3C7CA),
+                            fontSize: 13.spMin,
+                          ),
+                          disabledBorder: const UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffC3C7CA)),
+                          ),
+                          hintText: "NYC",
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30.spMin),
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Zip Code',
+                          labelStyle: TextStyle(
+                            color: const Color(0xffC3C7CA),
+                            fontSize: 13.spMin,
+                          ),
+                          disabledBorder: const UnderlineInputBorder(),
+                          border: const UnderlineInputBorder(),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xffC3C7CA)),
+                          ),
+                          hintText: "123456",
+                          hintStyle: const TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 15.spMin),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                ).h,
-                child: Column(
-                  children: [
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Address line 1',
-                        labelStyle: TextStyle(
-                          color: const Color(0xffC3C7CA),
-                          fontSize: 13.spMin,
-                        ),
-                        disabledBorder: const UnderlineInputBorder(),
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xffC3C7CA)),
-                        ),
-                        hintText: "7 Willoghbly Court",
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30.spMin),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Address line 2',
-                        labelStyle: TextStyle(
-                          color: const Color(0xffC3C7CA),
-                          fontSize: 13.spMin,
-                        ),
-                        disabledBorder: const UnderlineInputBorder(),
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xffC3C7CA)),
-                        ),
-                        hintText: "",
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30.spMin),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'City',
-                        labelStyle: TextStyle(
-                          color: const Color(0xffC3C7CA),
-                          fontSize: 13.spMin,
-                        ),
-                        disabledBorder: const UnderlineInputBorder(),
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xffC3C7CA)),
-                        ),
-                        hintText: "Durham",
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30.spMin),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'State',
-                        labelStyle: TextStyle(
-                          color: const Color(0xffC3C7CA),
-                          fontSize: 13.spMin,
-                        ),
-                        disabledBorder: const UnderlineInputBorder(),
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xffC3C7CA)),
-                        ),
-                        hintText: "NYC",
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30.spMin),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Zip Code',
-                        labelStyle: TextStyle(
-                          color: const Color(0xffC3C7CA),
-                          fontSize: 13.spMin,
-                        ),
-                        disabledBorder: const UnderlineInputBorder(),
-                        border: const UnderlineInputBorder(),
-                        enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xffC3C7CA)),
-                        ),
-                        hintText: "123456",
-                        hintStyle: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

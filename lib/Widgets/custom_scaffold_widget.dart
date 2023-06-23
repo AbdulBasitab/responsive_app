@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_web_app/provider/provider.dart';
-import '../home_screen/app_navigation_bar.dart';
+import 'package:responsive_web_app/provider/responsive_app_provider.dart';
+import '../Screens/home_screen/components/app_navigation_bar.dart';
 
 class CustomScaffoldPage extends StatelessWidget {
   const CustomScaffoldPage(
@@ -19,7 +19,7 @@ class CustomScaffoldPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var provider = context.watch<SampleProvider>();
+    var provider = context.watch<ResponsiveAppProvider>();
     return Scaffold(
       drawerEnableOpenDragGesture: true,
       drawerScrimColor: Colors.transparent,

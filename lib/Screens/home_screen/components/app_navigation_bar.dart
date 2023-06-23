@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_web_app/provider/provider.dart';
+import 'package:responsive_web_app/provider/responsive_app_provider.dart';
 
 class AppNavigationBar extends StatelessWidget {
   const AppNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // var size = MediaQuery.of(context).size;
-    var provider = context.watch<SampleProvider>();
+    var screenWidth = MediaQuery.of(context).size.width;
+    var provider = context.watch<ResponsiveAppProvider>();
+
     return ListView(
       padding: const EdgeInsets.only(left: 0, top: 12, bottom: 10).h,
       children: [
@@ -39,7 +40,7 @@ class AppNavigationBar extends StatelessWidget {
         SizedBox(height: 20.spMin),
         Builder(
           builder: (context) {
-            if (provider.isAppbarCollapsed) {
+            if (provider.isAppbarCollapsed && screenWidth > 600) {
               return Column(
                 children: [
                   CustomListTile(
@@ -226,7 +227,7 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var provider = context.watch<SampleProvider>();
+    var provider = context.watch<ResponsiveAppProvider>();
     return Material(
       type: MaterialType.transparency,
       child: ListTile(
