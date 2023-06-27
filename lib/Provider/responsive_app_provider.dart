@@ -4,6 +4,7 @@ import '../Firebase Api/firebase_api.dart';
 
 class ResponsiveAppProvider extends ChangeNotifier {
   bool _isAppbarCollapsed = false;
+  bool _isLoading = false;
   String _selectedItem = 'Dashboard';
   final FirebaseApi _firebaseApi = FirebaseApi();
 
@@ -14,6 +15,13 @@ class ResponsiveAppProvider extends ChangeNotifier {
 
   bool get isAppbarCollapsed => _isAppbarCollapsed;
 
+  setIsLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  bool get isLoading => _isLoading;
+
   setSelectedItem(String value) {
     _selectedItem = value;
     notifyListeners();
@@ -22,12 +30,15 @@ class ResponsiveAppProvider extends ChangeNotifier {
   String get selectedNavItem => _selectedItem;
 
   Future<String> signInUsingEmail(String email, String password) async {
+    setIsLoading(true);
     String result = await _firebaseApi.signInUsingEmail(email, password);
     if (result == 'Success') {
       debugPrint("Succesfully SignedIn");
+      setIsLoading(false);
       return "Success";
     } else {
       debugPrint(result);
+      setIsLoading(false);
       return result;
     }
   }

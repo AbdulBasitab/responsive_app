@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_web_app/provider/responsive_app_provider.dart';
-import '../Screens/home_screen/components/app_navigation_bar.dart';
+
+import '../Screens/home_screen/components/side_navigation_bar.dart';
 
 class CustomScaffoldPage extends StatelessWidget {
   const CustomScaffoldPage(
@@ -31,7 +32,7 @@ class CustomScaffoldPage extends StatelessWidget {
           style: TextStyle(
               color: Colors.white,
               fontSize: 18.spMin,
-              fontWeight: FontWeight.w600),
+              fontWeight: FontWeight.w500),
         ),
         leading: (size.width > 600)
             ? IconButton(
@@ -65,7 +66,7 @@ class CustomScaffoldPage extends StatelessWidget {
       ),
       drawer: (size.width < 600)
           ? const Drawer(
-              child: AppNavigationBar(),
+              child: SideNavigationBar(),
             )
           : null,
       body: body,

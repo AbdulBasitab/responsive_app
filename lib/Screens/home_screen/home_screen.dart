@@ -8,12 +8,15 @@ import 'package:responsive_web_app/Screens/content_screens/route.dart'
     as route_widget;
 import 'package:responsive_web_app/Screens/content_screens/users.dart';
 import 'package:responsive_web_app/provider/responsive_app_provider.dart';
-import 'components/app_navigation_bar.dart';
+
+import '../../Screens/home_screen/components/side_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
+    this.child,
   });
+  final Widget? child;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -47,7 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         drawer: size.width < 600
             ? const Drawer(
-                backgroundColor: Color(0xff293238), child: AppNavigationBar())
+                backgroundColor: Color(0xff293238),
+                child: SideNavigationBar(),
+              )
             : null,
         body: Center(
           child: (size.width < 600)
@@ -59,16 +64,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: (value.isAppbarCollapsed == false) ? 240 : 80,
                         duration: const Duration(milliseconds: 300),
                         color: const Color(0xff293238),
-                        child: const AppNavigationBar(),
+                        child: const SideNavigationBar(),
                       ),
                     ),
                     Expanded(
                       child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          width: (provider.isAppbarCollapsed)
-                              ? size.width - 80
-                              : size.width - 240,
-                          child: checkConditionAndReturnWidget(provider)),
+                        duration: const Duration(milliseconds: 300),
+                        width: (provider.isAppbarCollapsed)
+                            ? size.width - 80
+                            : size.width - 240,
+                        child: widget.child ??
+                            checkConditionAndReturnWidget(provider),
+                      ),
                     ),
                   ],
                 ),

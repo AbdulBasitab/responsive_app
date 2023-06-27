@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_web_app/Routes/router.dart';
 import 'package:responsive_web_app/provider/responsive_app_provider.dart';
 
-class AppNavigationBar extends StatelessWidget {
-  const AppNavigationBar({super.key});
+class SideNavigationBar extends StatelessWidget {
+  const SideNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +52,7 @@ class AppNavigationBar extends StatelessWidget {
                     color: Colors.white,
                     onTap: () {
                       provider.setSelectedItem("Dashboard");
+                      context.pushNamed(RoutesName.dashboard);
                     },
                     isCollapsed: true,
                   ),
@@ -58,6 +62,7 @@ class AppNavigationBar extends StatelessWidget {
                     color: Colors.white,
                     onTap: () {
                       provider.setSelectedItem("Route");
+                      context.goNamed(RoutesName.route);
                     },
                     isCollapsed: true,
                   ),
@@ -67,6 +72,7 @@ class AppNavigationBar extends StatelessWidget {
                     color: Colors.white,
                     onTap: () {
                       provider.setSelectedItem("Organization");
+                      context.goNamed(RoutesName.organization);
                     },
                     isCollapsed: true,
                   ),
@@ -76,6 +82,7 @@ class AppNavigationBar extends StatelessWidget {
                     color: Colors.white,
                     onTap: () {
                       provider.setSelectedItem("Users");
+                      context.goNamed(RoutesName.users);
                     },
                     isCollapsed: true,
                   ),
@@ -86,6 +93,7 @@ class AppNavigationBar extends StatelessWidget {
                     isCollapsed: true,
                     onTap: () {
                       provider.setSelectedItem("Contacts");
+                      context.goNamed(RoutesName.contacts);
                     },
                   ),
                   CustomListTile(
@@ -94,6 +102,7 @@ class AppNavigationBar extends StatelessWidget {
                     color: Colors.white,
                     onTap: () {
                       provider.setSelectedItem("My Profile");
+                      context.goNamed(RoutesName.profile);
                     },
                     isCollapsed: true,
                   ),
@@ -112,6 +121,7 @@ class AppNavigationBar extends StatelessWidget {
                       if (Scaffold.maybeOf(context)?.hasDrawer ?? false) {
                         Navigator.of(context).pop();
                       }
+                      context.goNamed(RoutesName.dashboard);
                     },
                   ),
                   CustomListTile(
@@ -124,6 +134,7 @@ class AppNavigationBar extends StatelessWidget {
                       if (Scaffold.maybeOf(context)?.hasDrawer ?? false) {
                         Navigator.of(context).pop();
                       }
+                      context.goNamed(RoutesName.route);
                     },
                   ),
                   CustomListTile(
@@ -136,6 +147,7 @@ class AppNavigationBar extends StatelessWidget {
                       if (Scaffold.maybeOf(context)?.hasDrawer ?? false) {
                         Navigator.of(context).pop();
                       }
+                      context.goNamed(RoutesName.organization);
                     },
                   ),
                   CustomListTile(
@@ -148,6 +160,7 @@ class AppNavigationBar extends StatelessWidget {
                       if (Scaffold.maybeOf(context)?.hasDrawer ?? false) {
                         Navigator.of(context).pop();
                       }
+                      context.goNamed(RoutesName.users);
                     },
                   ),
                   CustomListTile(
@@ -160,6 +173,7 @@ class AppNavigationBar extends StatelessWidget {
                       if (Scaffold.maybeOf(context)?.hasDrawer ?? false) {
                         Navigator.of(context).pop();
                       }
+                      context.goNamed(RoutesName.contacts);
                     },
                   ),
                   CustomListTile(
@@ -172,6 +186,7 @@ class AppNavigationBar extends StatelessWidget {
                       if (Scaffold.maybeOf(context)?.hasDrawer ?? false) {
                         Navigator.of(context).pop();
                       }
+                      context.goNamed(RoutesName.profile);
                     },
                   ),
                 ],
@@ -191,7 +206,10 @@ class AppNavigationBar extends StatelessWidget {
               icon: Icons.logout,
               title: "Logout",
               color: Colors.white,
-              onTap: () {},
+              onTap: () async {
+                _signOut();
+                context.pushReplacementNamed(RoutesName.loginScreen);
+              },
               isCollapsed: true,
             );
           } else {
@@ -200,12 +218,19 @@ class AppNavigationBar extends StatelessWidget {
               title: "Logout",
               color: Colors.white,
               isCollapsed: false,
-              onTap: () {},
+              onTap: () async {
+                _signOut();
+                context.pushReplacementNamed(RoutesName.loginScreen);
+              },
             );
           }
         }),
       ],
     );
+  }
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
   }
 }
 

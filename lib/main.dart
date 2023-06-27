@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_web_app/Routes/router.dart';
 import 'package:responsive_web_app/provider/responsive_app_provider.dart';
-import 'package:responsive_web_app/Screens/login_screens/login_screen.dart';
 import 'firebase_options.dart';
 
 void main() async {

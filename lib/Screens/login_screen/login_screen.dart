@@ -83,12 +83,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () async {
                     String result = await provider.signInUsingEmail(
                         emailController.text, passwordController.text);
-                    if (result == 'Success') {
-                      context.go(RoutesName.homeScreen);
+                    if (result == 'Success' && mounted) {
+                      context.pushReplacementNamed(RoutesName.homeScreen);
+                      return;
                     } else {
                       Fluttertoast.showToast(
                         msg: result,
                       );
+                      return;
                     }
                   },
                   style: ButtonStyle(
@@ -102,14 +104,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   child: Center(
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16.spMin,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    child: (provider.isLoading == true)
+                        ? const CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            "Login",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.spMin,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                   ),
                 ),
               ),
