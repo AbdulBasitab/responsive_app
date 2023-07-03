@@ -6,6 +6,7 @@ class ResponsiveAppProvider extends ChangeNotifier {
   bool _isAppbarCollapsed = false;
   bool _isLoading = false;
   String _selectedItem = 'Dashboard';
+  String desiredDeepRouteLocation = '/dashboard';
   final FirebaseApi _firebaseApi = FirebaseApi();
 
   setIsAppBarCollapsed(bool value) {
@@ -28,6 +29,11 @@ class ResponsiveAppProvider extends ChangeNotifier {
   }
 
   String get selectedNavItem => _selectedItem;
+
+  void setDesiredDeepRoute(String value) {
+    desiredDeepRouteLocation = value;
+    notifyListeners();
+  }
 
   Future<String> signInUsingEmail(String email, String password) async {
     setIsLoading(true);

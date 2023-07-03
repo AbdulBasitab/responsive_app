@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_web_app/Routes/router.dart';
+import 'package:responsive_web_app/Utils/data_constants.dart';
 import 'package:responsive_web_app/provider/responsive_app_provider.dart';
 import 'package:responsive_web_app/utils/theme_utils.dart';
 
@@ -81,10 +82,22 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Consumer<ResponsiveAppProvider>(
                 builder: (context, provider, child) => ElevatedButton(
                   onPressed: () async {
+                    String? routeLocation =
+                        preferences?.getString(deepLinkRouteLocation);
+                    String? storageRouteLocation =
+                        storage?.read(storageDeepLinkRouteLocation);
                     String result = await provider.signInUsingEmail(
                         emailController.text, passwordController.text);
                     if (result == 'Success' && mounted) {
                       context.pushReplacementNamed(RoutesName.homeScreen);
+                      context.go((storageRouteLocation == null ||
+                              storageRouteLocation == '/home')
+                          ? '/dashboard'
+                          : storageRouteLocation);
+                      // context.go((routeLocation == null ||
+                      //         routeLocation == '/home')
+                      //     ? '/dashboard'
+                      //     : routeLocation);
                       return;
                     } else {
                       Fluttertoast.showToast(

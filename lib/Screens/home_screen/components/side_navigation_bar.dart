@@ -161,7 +161,7 @@ class SideNavigationBar extends StatelessWidget {
                   CustomListTile(
                     icon: Icons.group_rounded,
                     title: "Users",
-                    location: '/contacts',
+                    location: '/users',
                     color: Colors.white,
                     isCollapsed: false,
                     onTap: () {
