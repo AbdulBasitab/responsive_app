@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:responsive_web_app/provider/responsive_app_provider.dart';
 
 import '../../widgets/custom_scaffold_widget.dart';
 
@@ -13,6 +16,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  ResponsiveAppProvider? provider;
 
   @override
   void initState() {
@@ -25,6 +29,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         CurvedAnimation(parent: _controller.view, curve: Curves.easeIn);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _controller.forward();
+      // final GoRouter route = GoRouter.of(context);
+      // final String location = route.location;
+      // (location.startsWith('/profile'))
+      //     ? context.read<ResponsiveAppProvider>().setSelectedItem('profile')
+      //     : null;
     });
   }
 
@@ -35,7 +44,20 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    provider = Provider.of<ResponsiveAppProvider>(context, listen: false);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // if (mounted) {
+    //   final GoRouter route = GoRouter.of(context);
+    //   final String location = route.location;
+    //   (location.startsWith('/profile'))
+    //       ? provider!.setSelectedItem('profile')
+    //       : null;
+    // }
     return CustomScaffoldPage(
       appBarTitle: "Profile",
       actions: [

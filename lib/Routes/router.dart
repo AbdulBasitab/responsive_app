@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+// import 'package:provider/provider.dart';
 import 'package:responsive_web_app/Firebase%20Api/firebase_api.dart';
 import 'package:responsive_web_app/Screens/content_screens/contacts.dart';
 import 'package:responsive_web_app/Screens/content_screens/dashboard.dart';
@@ -10,7 +10,7 @@ import 'package:responsive_web_app/Screens/content_screens/profile.dart';
 import 'package:responsive_web_app/Screens/content_screens/route.dart' as route;
 import 'package:responsive_web_app/Screens/content_screens/users.dart';
 import 'package:responsive_web_app/Screens/login_screen/login_screen.dart';
-import 'package:responsive_web_app/provider/responsive_app_provider.dart';
+// import 'package:responsive_web_app/provider/responsive_app_provider.dart';
 import 'package:responsive_web_app/screens/home_screen/home_screen.dart';
 
 class RoutesName {
@@ -114,10 +114,12 @@ class RoutesGenrator {
       //var provider = Provider.of<ResponsiveAppProvider>(context);
       if (user != null && user.uid.isNotEmpty) {
         if (state.location == '/home' || state.location == '/login') {
-          // provider.setSelectedItem('home');
+          // context.read<ResponsiveAppProvider>().setSelectedItem('home');
           return '/home';
         } else {
-          //  provider.setSelectedItem(state.name ?? 'dashboard');
+          // context
+          //     .read<ResponsiveAppProvider>()
+          //     .setSelectedItem(state.name ?? 'dashboard');
           return state.location;
         }
       } else {

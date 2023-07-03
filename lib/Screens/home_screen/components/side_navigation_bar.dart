@@ -13,7 +13,6 @@ class SideNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var provider = context.watch<ResponsiveAppProvider>();
-
     return ListView(
       padding: const EdgeInsets.only(left: 0, top: 12, bottom: 10).h,
       children: [
@@ -50,6 +49,7 @@ class SideNavigationBar extends StatelessWidget {
                     icon: Icons.dashboard_rounded,
                     title: "Dashboard",
                     color: Colors.white,
+                    location: '/dashboard',
                     onTap: () {
                       provider.setSelectedItem("Dashboard");
                       context.pushNamed(RoutesName.dashboard);
@@ -60,6 +60,7 @@ class SideNavigationBar extends StatelessWidget {
                     icon: Icons.content_paste,
                     title: "Route",
                     color: Colors.white,
+                    location: '/route',
                     onTap: () {
                       provider.setSelectedItem("Route");
                       context.goNamed(RoutesName.route);
@@ -70,6 +71,7 @@ class SideNavigationBar extends StatelessWidget {
                     icon: Icons.account_balance_outlined,
                     title: "Organization",
                     color: Colors.white,
+                    location: '/organization',
                     onTap: () {
                       provider.setSelectedItem("Organization");
                       context.goNamed(RoutesName.organization);
@@ -79,6 +81,7 @@ class SideNavigationBar extends StatelessWidget {
                   CustomListTile(
                     icon: Icons.group_rounded,
                     title: "Users",
+                    location: '/users',
                     color: Colors.white,
                     onTap: () {
                       provider.setSelectedItem("Users");
@@ -89,6 +92,7 @@ class SideNavigationBar extends StatelessWidget {
                   CustomListTile(
                     icon: Icons.menu_book_rounded,
                     title: "Contacts",
+                    location: '/contacts',
                     color: Colors.white,
                     isCollapsed: true,
                     onTap: () {
@@ -100,6 +104,7 @@ class SideNavigationBar extends StatelessWidget {
                     icon: Icons.manage_accounts_outlined,
                     title: "My Profile",
                     color: Colors.white,
+                    location: '/profile',
                     onTap: () {
                       provider.setSelectedItem("My Profile");
                       context.goNamed(RoutesName.profile);
@@ -115,6 +120,7 @@ class SideNavigationBar extends StatelessWidget {
                     icon: Icons.dashboard_rounded,
                     title: "Dashboard",
                     color: Colors.white,
+                    location: '/dashboard',
                     isCollapsed: false,
                     onTap: () {
                       provider.setSelectedItem("Dashboard");
@@ -127,6 +133,7 @@ class SideNavigationBar extends StatelessWidget {
                   CustomListTile(
                     icon: Icons.content_paste,
                     title: "Route",
+                    location: '/route',
                     color: Colors.white,
                     isCollapsed: false,
                     onTap: () {
@@ -141,6 +148,7 @@ class SideNavigationBar extends StatelessWidget {
                     icon: Icons.account_balance_outlined,
                     title: "Organization",
                     color: Colors.white,
+                    location: '/organization',
                     isCollapsed: false,
                     onTap: () {
                       provider.setSelectedItem("Organization");
@@ -153,6 +161,7 @@ class SideNavigationBar extends StatelessWidget {
                   CustomListTile(
                     icon: Icons.group_rounded,
                     title: "Users",
+                    location: '/contacts',
                     color: Colors.white,
                     isCollapsed: false,
                     onTap: () {
@@ -166,6 +175,7 @@ class SideNavigationBar extends StatelessWidget {
                   CustomListTile(
                     icon: Icons.menu_book_rounded,
                     title: "Contacts",
+                    location: '/contacts',
                     color: Colors.white,
                     isCollapsed: false,
                     onTap: () {
@@ -179,6 +189,7 @@ class SideNavigationBar extends StatelessWidget {
                   CustomListTile(
                     icon: Icons.manage_accounts_outlined,
                     title: "My Profile",
+                    location: '/profile',
                     color: Colors.white,
                     isCollapsed: false,
                     onTap: () {
@@ -203,6 +214,7 @@ class SideNavigationBar extends StatelessWidget {
         Builder(builder: (context) {
           if (provider.isAppbarCollapsed) {
             return CustomListTile(
+              location: '',
               icon: Icons.logout,
               title: "Logout",
               color: Colors.white,
@@ -215,6 +227,7 @@ class SideNavigationBar extends StatelessWidget {
           } else {
             return CustomListTile(
               icon: Icons.logout,
+              location: '',
               title: "Logout",
               color: Colors.white,
               isCollapsed: false,
@@ -240,6 +253,7 @@ class CustomListTile extends StatelessWidget {
   final Color color;
   final bool isCollapsed;
   final VoidCallback onTap;
+  final String location;
 
   const CustomListTile({
     super.key,
@@ -248,11 +262,14 @@ class CustomListTile extends StatelessWidget {
     required this.color,
     required this.onTap,
     required this.isCollapsed,
+    required this.location,
   });
 
   @override
   Widget build(BuildContext context) {
     var provider = context.watch<ResponsiveAppProvider>();
+    final GoRouter route = GoRouter.of(context);
+    final String routeLocation = route.location;
     return Material(
       type: MaterialType.transparency,
       child: ListTile(
@@ -270,7 +287,8 @@ class CustomListTile extends StatelessWidget {
               )
             : const SizedBox.shrink(),
         onTap: onTap,
-        selected: provider.selectedNavItem == title,
+        selected: routeLocation == location ? true : false,
+        //provider.selectedNavItem == title,
         selectedTileColor: const Color(0xff39444F),
         splashColor: Colors.transparent,
       ),

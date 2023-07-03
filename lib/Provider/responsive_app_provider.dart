@@ -22,7 +22,7 @@ class ResponsiveAppProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
-  setSelectedItem(String value) {
+  void setSelectedItem(String value) {
     _selectedItem = value;
     notifyListeners();
   }
