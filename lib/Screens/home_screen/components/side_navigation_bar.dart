@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_web_app/Routes/router.dart';
+import 'package:responsive_web_app/Utils/data_constants.dart';
 import 'package:responsive_web_app/provider/responsive_app_provider.dart';
 
 class SideNavigationBar extends StatelessWidget {
@@ -219,8 +220,10 @@ class SideNavigationBar extends StatelessWidget {
               title: "Logout",
               color: Colors.white,
               onTap: () async {
-                _signOut();
-                context.pushReplacementNamed(RoutesName.loginScreen);
+                _signOut().then((value) =>
+                    Future.delayed(const Duration(milliseconds: 50), () {
+                      context.pushReplacementNamed(RoutesName.loginScreen);
+                    }));
               },
               isCollapsed: true,
             );
@@ -232,8 +235,10 @@ class SideNavigationBar extends StatelessWidget {
               color: Colors.white,
               isCollapsed: false,
               onTap: () async {
-                _signOut();
-                context.pushReplacementNamed(RoutesName.loginScreen);
+                _signOut().then((value) =>
+                    Future.delayed(const Duration(milliseconds: 50), () {
+                      context.pushReplacementNamed(RoutesName.loginScreen);
+                    }));
               },
             );
           }

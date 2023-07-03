@@ -82,8 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Consumer<ResponsiveAppProvider>(
                 builder: (context, provider, child) => ElevatedButton(
                   onPressed: () async {
-                    String? routeLocation =
-                        preferences?.getString(deepLinkRouteLocation);
+                    // String? routeLocation =
+                    //     preferences?.getString(deepLinkRouteLocation);
                     String? storageRouteLocation =
                         storage?.read(storageDeepLinkRouteLocation);
                     String result = await provider.signInUsingEmail(

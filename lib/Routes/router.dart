@@ -117,6 +117,7 @@ class RoutesGenrator {
       }
       User? user = FirebaseApi.auth.currentUser;
       print("Desired Deep Route Location: ${state.location}");
+
       if (user != null && user.uid.isNotEmpty) {
         if (state.location == '/home' || state.location == '/login') {
           return '/home';
