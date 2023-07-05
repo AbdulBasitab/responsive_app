@@ -26,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           "Login",
           style: TextStyle(
@@ -42,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: screenWidth * 0.3,
+              width: screenWidth < 600 ? screenWidth * 0.5 : screenWidth * 0.3,
               child: TextField(
                 controller: emailController,
                 style: const TextStyle(
@@ -58,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 40.spMin),
             SizedBox(
-              width: screenWidth * 0.3,
+              width: screenWidth < 600 ? screenWidth * 0.5 : screenWidth * 0.3,
               child: TextField(
                 controller: passwordController,
                 textInputAction: TextInputAction.done,
@@ -77,13 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             SizedBox(height: 50.spMin),
             SizedBox(
-              width: screenWidth * 0.1,
+              width: screenWidth < 600 ? screenWidth * 0.3 : screenWidth * 0.1,
               height: screenHeight * 0.06,
               child: Consumer<ResponsiveAppProvider>(
                 builder: (context, provider, child) => ElevatedButton(
                   onPressed: () async {
-                    // String? routeLocation =
-                    //     preferences?.getString(deepLinkRouteLocation);
                     String? storageRouteLocation =
                         storage?.read(storageDeepLinkRouteLocation);
                     String result = await provider.signInUsingEmail(
@@ -94,10 +93,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               storageRouteLocation == '/home')
                           ? '/dashboard'
                           : storageRouteLocation);
-                      // context.go((routeLocation == null ||
-                      //         routeLocation == '/home')
-                      //     ? '/dashboard'
-                      //     : routeLocation);
                       return;
                     } else {
                       Fluttertoast.showToast(
@@ -118,8 +113,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: Center(
                     child: (provider.isLoading == true)
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
+                        ? const SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
                           )
                         : Text(
                             "Login",
