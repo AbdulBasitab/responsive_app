@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:responsive_web_app/Routes/router.dart';
 
 import '../../widgets/custom_scaffold_widget.dart';
 
@@ -60,14 +62,20 @@ class _DashboardState extends State<Dashboard>
                 ),
               ),
             );
-            return SlideTransition(
-              position: itemAnimation,
-              child: Card(
-                child: ListTile(
-                  tileColor: Colors.black,
-                  title: Text(
-                    'Item ${index + 1}',
-                    style: const TextStyle(color: Colors.white),
+            return InkWell(
+              onTap: () => context.goNamed(
+                RoutesName.itemDetail,
+                pathParameters: {'id': (index + 1).toString()},
+              ),
+              child: SlideTransition(
+                position: itemAnimation,
+                child: Card(
+                  child: ListTile(
+                    tileColor: Colors.black,
+                    title: Text(
+                      'Item ${index + 1}',
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),

@@ -1,17 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-// import 'package:provider/provider.dart';
 import 'package:responsive_web_app/Firebase%20Api/firebase_api.dart';
 import 'package:responsive_web_app/Screens/content_screens/contacts.dart';
 import 'package:responsive_web_app/Screens/content_screens/dashboard.dart';
+import 'package:responsive_web_app/Screens/content_screens/item_detail.dart';
 import 'package:responsive_web_app/Screens/content_screens/organization.dart';
 import 'package:responsive_web_app/Screens/content_screens/profile.dart';
 import 'package:responsive_web_app/Screens/content_screens/route.dart' as route;
 import 'package:responsive_web_app/Screens/content_screens/users.dart';
 import 'package:responsive_web_app/Screens/login_screen/login_screen.dart';
 import 'package:responsive_web_app/Utils/data_constants.dart';
-// import 'package:responsive_web_app/provider/responsive_app_provider.dart';
 import 'package:responsive_web_app/screens/home_screen/home_screen.dart';
 
 class RoutesName {
@@ -23,6 +22,7 @@ class RoutesName {
   static const String users = 'users';
   static const String route = 'route';
   static const String organization = 'organization';
+  static const String itemDetail = 'item';
 }
 
 final GlobalKey<NavigatorState> _rootNavigator = GlobalKey(debugLabel: 'root');
@@ -58,6 +58,18 @@ class RoutesGenrator {
               key: state.pageKey,
               child: const Dashboard(),
             ),
+            routes: [
+              GoRoute(
+                path: 'item:id',
+                name: RoutesName.itemDetail,
+                pageBuilder: (context, state) => NoTransitionPage(
+                  key: state.pageKey,
+                  child: ItemDetail(
+                    itemIndex: int.parse(state.pathParameters['id']!),
+                  ),
+                ),
+              ),
+            ],
           ),
           GoRoute(
             path: '/profile',
@@ -111,18 +123,18 @@ class RoutesGenrator {
     ],
     initialLocation: '/home',
     redirect: (context, state) {
-      if (state.location != '/login') {
-        preferences?.setString(deepLinkRouteLocation, state.location);
-        storage?.create(storageDeepLinkRouteLocation, state.location);
+      if (state.uri.toString() != '/login') {
+        preferences?.setString(deepLinkRouteLocation, state.uri.toString());
+        storage?.create(storageDeepLinkRouteLocation, state.uri.toString());
       }
       User? user = FirebaseApi.auth.currentUser;
-      print("Desired Deep Route Location: ${state.location}");
-
+      debugPrint("Desired Deep Route Location: ${state.uri.toString()}");
       if (user != null && user.uid.isNotEmpty) {
-        if (state.location == '/home' || state.location == '/login') {
+        if (state.uri.toString() == '/home' ||
+            state.uri.toString() == '/login') {
           return '/home';
         } else {
-          return state.location;
+          return state.uri.toString();
         }
       } else {
         return '/login';

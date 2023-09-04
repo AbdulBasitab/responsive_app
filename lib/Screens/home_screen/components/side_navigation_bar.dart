@@ -272,8 +272,8 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var provider = context.watch<ResponsiveAppProvider>();
-    final GoRouter route = GoRouter.of(context);
-    final String routeLocation = route.location;
+    final route = GoRouterState.of(context);
+    final String routeLocation = route.uri.toString();
     return Material(
       type: MaterialType.transparency,
       child: ListTile(
