@@ -44,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var provider = context.watch<ResponsiveAppProvider>();
+    final size = MediaQuery.of(context).size;
+    final provider = context.watch<ResponsiveAppProvider>();
     return SafeArea(
       child: Scaffold(
         drawer: size.width < 600
